@@ -27,7 +27,9 @@ def main():
             - Array/List Implementation: O(1)
             - Linked List Implementation: O(1)
 
-        The differences in time complexities arise because arrays use contiguous memory, allowing direct access to elements, whereas linked lists use nodes that are dynamically allocated in memory, requiring traversal to access elements.
+        **What does O(1) mean?**
+
+        O(1) denotes constant time complexity. This means that the operation takes the same amount of time to complete, regardless of the size of the input data. For example, accessing an element in an array by its index, pushing or popping from a stack, and checking if a stack is empty are all O(1) operations. Whether you are processing 1 item or 1 million items, the time taken to perform the operation remains the same. O(1) operations are extremely efficient and predictable.
     """)
 
     st.header("Task 2: Stack as a Linter")
@@ -63,17 +65,39 @@ print(is_balanced("((("))         # False
 
     st.subheader("Scenarios")
     st.write("""
-        **No Mismatch:** Input: `([]{})`
-        - The stack after each step: `(`, `([`, `([]`, `([]{`, `([]{})`
-        - Result: Balanced.
+        **Scenario 1: No Mismatch**
+        
+        **Input:** `([]{})`
+        
+        - **Explanation:** As we process each character in the input:
+            - Push `(` onto the stack: Stack becomes `[ ( ]`
+            - Push `[` onto the stack: Stack becomes `[ ( [ ]`
+            - Encounter `]`, it matches the top of the stack (`[`), so pop `[` from the stack: Stack becomes `[ ( ]`
+            - Push `{` onto the stack: Stack becomes `[ ( { ]`
+            - Encounter `}`, it matches the top of the stack (`{`), so pop `{` from the stack: Stack becomes `[ ( ]`
+            - Encounter `)`, it matches the top of the stack (`(`), so pop `(` from the stack: Stack becomes `[]`
+        - **Result:** The stack is empty at the end, indicating that all braces are balanced.
 
-        **Missing Closing Brace:** Input: `((()`
-        - The stack after each step: `(`, `((`, `(((`, `((()`
-        - Result: Not balanced, missing closing braces.
+        **Scenario 2: Missing Closing Brace**
+        
+        **Input:** `((()`
+        
+        - **Explanation:** As we process each character in the input:
+            - Push `(` onto the stack: Stack becomes `[ ( ]`
+            - Push `(` onto the stack: Stack becomes `[ ( ( ]`
+            - Push `(` onto the stack: Stack becomes `[ ( ( ( ]`
+            - Encounter `)`, it matches the top of the stack (`(`), so pop `(` from the stack: Stack becomes `[ ( ( ]`
+        - **Result:** The stack is not empty (`[ ( ( ]`), indicating that there are unmatched opening braces left, which means there are missing closing braces.
 
-        **Missing Opening Brace:** Input: `())`
-        - The stack after each step: `(`, `()`, attempt to pop from an empty stack.
-        - Result: Not balanced, missing opening brace.
+        **Scenario 3: Missing Opening Brace**
+        
+        **Input:** `())`
+        
+        - **Explanation:** As we process each character in the input:
+            - Push `(` onto the stack: Stack becomes `[ ( ]`
+            - Encounter `)`, it matches the top of the stack (`(`), so pop `(` from the stack: Stack becomes `[]`
+            - Encounter `)`, the stack is empty, so there is no matching opening brace.
+        - **Result:** The stack operation fails on the second `)`, indicating a missing opening brace.
     """)
 
 if __name__ == "__main__":
