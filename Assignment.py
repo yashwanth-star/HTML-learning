@@ -1,4 +1,30 @@
 import streamlit as st
+import matplotlib.pyplot as plt
+
+def visualize_stack(operations):
+    fig, ax = plt.subplots()
+    stack = []
+    stack_snapshots = []
+    
+    for op in operations:
+        if op.startswith('push'):
+            _, val = op.split()
+            stack.append(val)
+        elif op == 'pop' and stack:
+            stack.pop()
+        stack_snapshots.append(list(stack))  # Copy current state of the stack
+
+    ax.plot([], [], ' ', label='Operations:')
+    for i, (op, state) in enumerate(zip(operations, stack_snapshots)):
+        ax.plot([], [], ' ', label=f'{i+1}. {op}')
+        for j, val in enumerate(state):
+            ax.text(i, j, val, ha='center', va='center', bbox=dict(facecolor='lightblue', edgecolor='black'))
+    
+    ax.set_xlim(-1, len(operations))
+    ax.set_ylim(-1, max(len(s) for s in stack_snapshots) + 1)
+    ax.axis('off')
+    ax.legend(loc='upper left', bbox_to_anchor=(1, 1))
+    st.pyplot(fig)
 
 def main():
     st.title("Stack and Linting Functionality")
@@ -107,6 +133,21 @@ print(is_balanced("((("))         # False
             - Encounter `)`, the stack is empty, so there is no matching opening brace.
         - **Result:** The stack operation fails on the second `)`, indicating a missing opening brace.
     """)
+
+    # Visual aids for scenarios
+    st.subheader("Visual Aids")
+
+    st.write("### Scenario 1: No Mismatch `([]{})`")
+    operations_1 = ["push (", "push [", "pop ]", "push {", "pop }", "pop )"]
+    visualize_stack(operations_1)
+
+    st.write("### Scenario 2: Missing Closing Brace `((()`")
+    operations_2 = ["push (", "push (", "push (", "pop )"]
+    visualize_stack(operations_2)
+
+    st.write("### Scenario 3: Missing Opening Brace `())`")
+    operations_3 = ["push (", "pop )", "pop )"]
+    visualize_stack(operations_3)
 
 if __name__ == "__main__":
     main()
