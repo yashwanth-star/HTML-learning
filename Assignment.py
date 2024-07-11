@@ -1,5 +1,4 @@
 import streamlit as st
-from streamlit.components.v1 import html
 
 def main():
     st.title("Stack and Linting Functionality")
@@ -17,33 +16,28 @@ def main():
     """)
 
     st.subheader("Time Complexities")
-    st.markdown("""
-    <div style="background-color: #f0f0f0; padding: 10px; border-radius: 5px;">
-        - **Push:**
-            - Array/List Implementation: O(1) (on average, but resizing the array occasionally takes O(n) time)
-            - Linked List Implementation: O(1)
-        - **Pop:**
-            - Array/List Implementation: O(1) (on average)
-            - Linked List Implementation: O(1)
-        - **Peek/Read:**
-            - Array/List Implementation: O(1)
-            - Linked List Implementation: O(1)
-        - **IsEmpty:**
-            - Array/List Implementation: O(1)
-            - Linked List Implementation: O(1)
-    </div>
-    """, unsafe_allow_html=True)
-
     st.write("""
+        - **Push:**
+            - **Array/List Implementation:** O(1) (on average)
+                - This operation involves adding an element to the end of the list, which typically takes constant time. However, if the array needs to be resized (when it’s full), it takes O(n) time to copy all elements to a new array. This resizing happens infrequently, so the amortized time complexity remains O(1).
+            - **Linked List Implementation:** O(1)
+                - Adding an element to the head (top) of a linked list is always a constant-time operation because it only involves updating a few pointers.
+
+        - **Pop:**
+            - **Array/List Implementation:** O(1) (on average)
+                - Removing the last element from the list also typically takes constant time. Like the push operation, resizing is not needed for pops, so it remains O(1).
+            - **Linked List Implementation:** O(1)
+                - Removing the head (top) element of a linked list is a constant-time operation as it involves updating pointers.
+
+        - **Peek/Read:**
+            - **Array/List Implementation:** O(1)
+                - Accessing the last element of the array is a constant-time operation.
+            - **Linked List Implementation:** O(1)
+                - Accessing the head (top) element of a linked list is a constant-time operation.
+
         **What does O(1) mean?**
 
-        O(1) denotes constant time complexity. This means that the operation takes the same amount of time to complete, regardless of the size of the input data. Here are some examples:
-        
-        - **Accessing an Element in an Array:** When you access an element in an array by its index (e.g., `arr[5]`), it takes constant time O(1). This is because arrays allow direct access to any element using its index.
-        - **Pushing or Popping from a Stack:** In a stack implemented with an array or a linked list, both the push and pop operations are O(1). This is because you are always adding or removing an element from the top of the stack.
-        - **Checking if a Stack is Empty:** Checking if a stack is empty is also O(1) because it typically involves a single comparison.
-
-        Whether you are processing 1 item or 1 million items, the time taken to perform the operation remains the same. O(1) operations are extremely efficient and predictable.
+        O(1) denotes constant time complexity. This means that the operation takes the same amount of time to complete, regardless of the size of the input data. For example, accessing an element in an array by its index, pushing or popping from a stack, and checking if a stack is empty are all O(1) operations. Whether you are processing 1 item or 1 million items, the time taken to perform the operation remains the same. O(1) operations are extremely efficient and predictable.
     """)
 
     st.header("Task 2: Stack as a Linter")
@@ -78,10 +72,9 @@ print(is_balanced("((("))         # False
     """, language='python')
 
     st.subheader("Scenarios")
-    st.markdown("""
-    <div style="background-color: #f0f0f0; padding: 10px; border-radius: 5px;">
+    st.write("""
         **Scenario 1: No Mismatch**
-
+        
         **Input:** `([]{})`
         
         - **Explanation:** As we process each character in the input:
@@ -113,8 +106,7 @@ print(is_balanced("((("))         # False
             - Encounter `)`, it matches the top of the stack (`(`), so pop `(` from the stack: Stack becomes `[]`
             - Encounter `)`, the stack is empty, so there is no matching opening brace.
         - **Result:** The stack operation fails on the second `)`, indicating a missing opening brace.
-    </div>
-    """, unsafe_allow_html=True)
+    """)
 
 if __name__ == "__main__":
     main()
